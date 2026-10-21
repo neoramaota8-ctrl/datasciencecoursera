@@ -1,0 +1,58 @@
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
+
+## Loading and preprocessing the data
+```{r}
+activity <- read.csv("activity.csv")
+```
+
+## What is mean total number of steps taken per day?
+```{r}
+total_steps <- tapply(activity$steps, activity$date, sum, na.rm=TRUE)
+hist(total_steps, main="Total Steps per Day", xlab="Steps", col="blue")
+mean_steps <- mean(total_steps, na.rm=TRUE)
+median_steps <- median(total_steps, na.rm=TRUE)
+print(paste("Mean:", mean_steps))
+print(paste("Median:", median_steps))
+```
+
+## What is the average daily activity pattern?
+```{r}
+avg_steps <- tapply(activity$steps, activity$interval, mean, na.rm=TRUE)
+plot(names(avg_steps), avg_steps, type="l", xlab="5-minute Interval", ylab="Average Steps", main="Average Daily Activity Pattern")
+max_interval <- names(avg_steps)[which.max(avg_steps)]
+print(paste("Max interval:", max_interval))
+```
+
+## Imputing missing values
+```{r}
+missing_vals <- sum(is.na(activity$steps))
+print(paste("Missing values:", missing_vals))
+activity_imputed <- activity
+for (i in 1:nrow(activity_imputed)) {
+  if (is.na(activity_imputed$steps[i])) {
+    interval_val <- as.character(activity_imputed$interval[i])
+    activity_imputed$steps[i] <- avg_steps[[interval_val]]
+  }
+}
+total_steps_imputed <- tapply(activity_imputed$steps, activity_imputed$date, sum)
+hist(total_steps_imputed, main="Total Steps per Day (Imputed)", xlab="Steps", col="green")
+print(paste("Mean (Imputed):", mean(total_steps_imputed)))
+print(paste("Median (Imputed):", median(total_steps_imputed)))
+```
+
+## Are there differences in activity patterns between weekdays and weekends?
+```{r}
+activity_imputed$date <- as.Date(activity_imputed$date)
+activity_imputed$day_type <- ifelse(weekdays(activity_imputed$date) %in% c("Saturday", "Sunday"), "weekend", "weekday")
+activity_imputed$day_type <- as.factor(activity_imputed$day_type)
+par(mfrow=c(2,1))
+weekday_data <- subset(activity_imputed, day_type == "weekday")
+weekend_data <- subset(activity_imputed, day_type == "weekend")
+plot(tapply(weekday_data$steps, weekday_data$interval, mean), type="l", main="Weekdays", xlab="Interval", ylab="Steps")
+plot(tapply(weekend_data$steps, weekend_data$interval, mean), type="l", main="Weekends", xlab="Interval", ylab="Steps")
+```
