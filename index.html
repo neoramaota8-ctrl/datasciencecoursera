@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Plotly Presentation</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+  #myDiv { width: 800px; height: 500px; margin: 0 auto; }
+</style>
+</head>
+<body>
+
+<h1>My Interactive Plotly Presentation</h1>
+<p>Date Created: <strong>October 23, 2026</strong></p>
+<p>This page features an interactive scatter plot created using Plotly.</p>
+
+<div id="myDiv"></div>
+
+<script>
+  var trace1 = {
+    x: [1, 2, 3, 4, 5],
+    y: [10, 15, 13, 17, 20],
+    mode: 'markers+lines',
+    type: 'scatter',
+    name: 'Data Points'
+  };
+
+  var data = [trace1];
+
+  var layout = {
+    title: 'Interactive Plotly Graph',
+    xaxis: { title: 'X Axis' },
+    yaxis: { title: 'Y Axis' }
+  };
+
+  Plotly.newPlot('myDiv', data, layout);
+</script>
+
+</body>
+</html>
