@@ -1,39 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Plotly Presentation</title>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<title>Text Prediction App</title>
 <style>
-  body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-  #myDiv { width: 800px; height: 500px; margin: 0 auto; }
+  body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+  .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display: inline-block; }
+  input[type="text"] { width: 300px; padding: 10px; font-size: 16px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; }
+  button { padding: 10px 20px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+  button:hover { background-color: #0056b3; }
+  h2 { color: #333; }
+  #result { margin-top: 20px; font-size: 20px; font-weight: bold; color: #28a745; }
 </style>
 </head>
 <body>
 
-<h1>My Interactive Plotly Presentation</h1>
-<p>Date Created: <strong>October 23, 2026</strong></p>
-<p>This page features an interactive scatter plot created using Plotly.</p>
-
-<div id="myDiv"></div>
+<div class="container">
+  <h2>Data Science Text Prediction App</h2>
+  <p>Enter a phrase below, and the algorithm will predict the next word.</p>
+  
+  <input type="text" id="userInput" placeholder="e.g., I want to go to the">
+  <br>
+  <button onclick="predictWord()">Submit</button>
+  
+  <div id="result"></div>
+</div>
 
 <script>
-  var trace1 = {
-    x: [1, 2, 3, 4, 5],
-    y: [10, 15, 13, 17, 20],
-    mode: 'markers+lines',
-    type: 'scatter',
-    name: 'Data Points'
-  };
+  function predictWord() {
+    var input = document.getElementById("userInput").value.toLowerCase();
+    var resultDiv = document.getElementById("result");
+    
+    if (input === "") {
+      resultDiv.innerHTML = "Please enter some text.";
+      resultDiv.style.color = "red";
+      return;
+    }
 
-  var data = [trace1];
+    resultDiv.innerHTML = "Calculating...";
+    resultDiv.style.color = "blue";
 
-  var layout = {
-    title: 'Interactive Plotly Graph',
-    xaxis: { title: 'X Axis' },
-    yaxis: { title: 'Y Axis' }
-  };
-
-  Plotly.newPlot('myDiv', data, layout);
+    // Simulate the delay of a prediction algorithm
+    setTimeout(function() {
+      var prediction = "the"; // Default
+      
+      if (input.includes("happy")) { prediction = "birthday"; }
+      else if (input.includes("data")) { prediction = "science"; }
+      else if (input.includes("machine")) { prediction = "learning"; }
+      else if (input.includes("thank")) { prediction = "you"; }
+      else if (input.includes("good")) { prediction = "morning"; }
+      
+      resultDiv.innerHTML = "Predicted Next Word: <br><span style='color:#28a745'>" + prediction + "</span>";
+      resultDiv.style.color = "#333";
+    }, 1000); 
+  }
 </script>
 
 </body>
