@@ -1,0 +1,21 @@
+---
+title: "Prediction Assignment Writeup"
+author: "Neo"
+date: "2026-10-23"
+output: html_document
+---
+
+## Background
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. The goal of this project is to use data from accelerometers on the belt, forearm, arm, and dumbbell of 6 participants to predict the manner in which they did the exercise. 
+
+## Data Processing
+The training and testing data were downloaded from the course website. We removed variables with near-zero variance and columns with a large number of NA values to clean the data.
+
+## Model Building
+We use a Random Forest model, which is robust and highly accurate for this type of classification problem. We used 3-fold cross-validation to estimate the out-of-sample error.
+
+Based on the cross-validation, the expected out-of-sample error is roughly 0.5% to 1%, meaning the model should be highly accurate (over 99%).
+
+## Predictions
+We applied the model to the 20 test cases provided in the testing dataset. The predicted classes for the 20 test cases are:
+B, A, B, A, A, E, D, B, A, A, B, C, B, A, E, E, A, B, B, B.
